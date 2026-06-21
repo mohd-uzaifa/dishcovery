@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find your Indian Recipe here</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">DishCovery</div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="ingredient-search/index.html">Ingredients</a></li>
+    <li><a href="regional-dishes/index.html">Regions</a></li>
+    <li><a href="meal-planner/index.html">Meal Planner</a></li>
+    <li><a href="favorites/index.html">Favorites</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <h1>Discover Recipes, Plan Meals, Save Favorites</h1>
+    <a href="#features" class="cta-btn">Start Exploring</a>
+  </div>
+</header>
+
+<section class="features" id="features">
+  <div class="feature-card">
+    <h3>Ingredient Search</h3>
+    <p>Select ingredients and discover recipes instantly.</p>
+    <a href="ingredient-search/index.html" class="btn">Explore</a>
+  </div>
+
+   <div class="feature-card">
+    <h3>Regional Dishes</h3>
+    <p>Explore recipes by region and cuisine.</p>
+    <a href="regional-dishes/index.html" class="btn">View</a>
+  </div>
+
+    <div class="feature-card">
+    <h3>Weekly Meal Planner</h3>
+    <p>Plan your meals for the week with ease.</p>
+    <a href="meal-planner/index.html" class="btn">Plan</a>
+  </div>
+
+  <div class="feature-card">
+    <h3>Favorites</h3>
+    <p>Save & explore your favorite recipes.</p>
+    <a href="favorites/index.html" class="btn">Open</a>
+  </div>
+
+
+
+ 
+</section>
+
+<section class="random-section">
+  <div class="random-grid">
+    <div class="random-card">
+      <p><strong>Did you know?</strong> Honey never spoils—it can last thousands of years!</p>
+    </div>
+    <div class="random-card">
+      <p><strong>Fun Fact:</strong> Chili peppers' spiciness is measured in Scoville units.</p>
+    </div>
+    <div class="random-card">
+      <p><strong>Did you know?</strong> Tomatoes are technically fruits, not vegetables!</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Made by DishCovery Team</p>
+</footer>
+
+<script>
+  document.querySelector(".cta-btn").addEventListener("click", () => {
+    document.querySelector("#features").scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+
+</body>
+</html>

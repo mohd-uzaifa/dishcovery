@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Meal Planner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar (same as homepage) -->
+<nav class="navbar">
+  <div class="logo">DishCovery</div>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../ingredient-search/index.html">Ingredients</a></li>
+    <li><a href="../regional-dishes/index.html">Regions</a></li>
+    <li><a href="index.html">Meal Planner</a></li>
+    <li><a href="../favorites/index.html">Favorites</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Header -->
+<header class="hero">
+  <div class="hero-content">
+    <h1>Weekly Meal Planner</h1>
+    <p>Click diet types to filter — your plan regenerates automatically.</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Diet selection -->
+  <section class="planner-controls">
+    <h2>Choose Diet Types</h2>
+    <div class="diet-options" id="dietOptions">
+      <div class="diet-box" data-diet="Vegetarian">Vegetarian</div>
+      <div class="diet-box" data-diet="Vegan">Vegan</div>
+      <div class="diet-box" data-diet="Diabetic Friendly">Diabetic Friendly</div>
+      <div class="diet-box" data-diet="High Protein Vegetarian">High Protein Vegetarian</div>
+      <div class="diet-box" data-diet="No Onion No Garlic">No Onion No Garlic</div>
+    </div>
+  </section>
+
+  <!-- Spinner -->
+  <div id="spinner" class="spinner" style="display:none;"></div>
+
+  <!-- Planner Area -->
+  <section id="plannerArea" class="planner-area">
+    <!-- Day sections injected by JS -->
+  </section>
+</main>
+
+<!-- Modal -->
+<div class="modal" id="recipeModal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <img class="modal-img" id="modalImage" src="" alt="Recipe Image">
+    <h2 id="modalName"></h2>
+    <p id="modalDescription"></p>
+    <div class="modal-section">
+      <h3>Ingredients</h3>
+      <ul id="modalIngredients"></ul>
+    </div>
+    <div class="modal-section">
+      <h3>Steps</h3>
+      <ol id="modalSteps"></ol>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
