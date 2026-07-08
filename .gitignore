@@ -1,1 +1,5 @@
 ingredient-search/static/images
+backend/src/main/resources/application.properties
+backend/target
+backend/.idea
+backend/*.iml
