@@ -70,27 +70,6 @@ body { font-family:'Poppins', sans-serif; background:#fdfaf6; color:#333; }
 .recipe-card h3 { color:#6a4c93; margin:5px 0 2px 0; font-size:18px; }
 .recipe-card p { margin:0; color:#555; font-size:14px; }
 
-/* Favorite Icon */
-
-.favorite-icon {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 20px;
-    color: #ccc;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.favorite-icon.favorited {
-    color: #e74c3c; /* red on click */
-    transform: scale(1.2);
-}
-.favorite-icon:hover {
-    color: #e74c3c; /* red on hover */
-    transform: scale(1.1);
-}
-
-
 /* Load More Button */
 .load-more-wrapper { display:flex; justify-content:center; margin:20px 0 0 0; }
 #loadMore { padding:8px 16px; background:#6a4c93; color:#fff; border:none; border-radius:6px; cursor:pointer; transition:0.3s; font-size:14px; font-weight:bold; }

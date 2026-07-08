@@ -74,14 +74,6 @@ body { font-family:'Poppins', sans-serif; background:#fdfaf6; color:#333; line-h
 .recipe-card h3 { margin:0 12px 6px; font-size:1rem; font-weight:500; color:#6a4c93; }
 .recipe-card p { margin:0 12px 12px; color:#555; font-size:0.85rem; }
 
-/* Favorite Icon */
-.favorite-icon {
-  position:absolute; top:8px; right:8px; font-size:22px;
-  color: rgba(255,255,255,0.8); cursor:pointer; transition:0.2s;
-  text-shadow: 0 0 3px rgba(0,0,0,0.5);
-}
-.favorite-icon:hover { transform:scale(1.2); color:#ff3366; }
-.favorite-icon.favorited { color:#ff3366; }
 
 /* Load More Button */
 .load-more-wrapper { display:flex; justify-content:center; margin:20px 0; }

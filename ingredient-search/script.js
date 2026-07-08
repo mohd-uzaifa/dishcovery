@@ -31,7 +31,7 @@ const modalSteps = document.getElementById('modalSteps');
 const closeModal = document.getElementById('closeModal');
 
 // Load JSON
-fetch('recipes1.json')
+fetch('http://localhost:8080/api/recipes')
 .then(res => res.json())
 .then(data => {
   allRecipes = data.map(r => {
@@ -207,26 +207,15 @@ function displayRecipes(){
     let card = document.createElement('div');
     card.classList.add('recipe-card');
 
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const isFavorited = favorites.some(f => f.name === r.name);
+    
 
     card.innerHTML = `
       <img src="${r.image}" alt="">
-      <span class="favorite-icon ${isFavorited ? 'favorited' : ''}">&#10084;</span>
       <h3>${r.name}</h3>
       <p>Ready in ${r.prep_time.replace(/Total in /i,'')}</p>
     `;
 
-    // Favorite toggle
-    const heart = card.querySelector('.favorite-icon');
-    heart.addEventListener('click', e=>{
-      e.stopPropagation();
-      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      const index = favorites.findIndex(f => f.name === r.name);
-      if(index>-1){ favorites.splice(index,1); heart.classList.remove('favorited'); }
-      else{ favorites.push(r); heart.classList.add('favorited'); }
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-    });
+    
 
     // Open modal
     card.addEventListener('click', ()=>openModal(r));

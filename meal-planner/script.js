@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let firstLoad = true; // 🔹 New flag to prevent spinner on first render
 
   // load JSON
-  fetch('recipes1.json')
+  fetch('http://localhost:8080/api/recipes')
     .then(r => r.json())
     .then(data => {
       // adjust image paths same as your region page

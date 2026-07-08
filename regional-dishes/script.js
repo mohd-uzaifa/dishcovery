@@ -19,7 +19,7 @@ const modalSteps = document.getElementById('modalSteps');
 const closeModal = document.getElementById('closeModal');
 
 // Load JSON
-fetch('recipes1.json')
+fetch('http://localhost:8080/api/recipes')
 .then(res => res.json())
 .then(data => {
   allRecipes = data.map(r => {
@@ -62,23 +62,17 @@ function displayRecipes() {
     const card = document.createElement('div');
     card.classList.add('recipe-card');
 
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const isFavorited = favorites.some(f => f.name === r.name);
+    
 
     card.innerHTML = `
       <div class="card-img-wrapper">
         <img src="${r.image}" alt="">
-        <span class="favorite-icon ${isFavorited ? 'favorited' : ''}">&#10084;</span>
       </div>
       <h3>${r.name}</h3>
       <p>${r.prep_time || ''}</p>
     `;
 
-    const heart = card.querySelector('.favorite-icon');
-    heart.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleFavorite(r, heart);
-    });
+   
 
     card.addEventListener('click', ()=> openModal(r));
     recipeGrid.appendChild(card);
@@ -110,18 +104,4 @@ function openModal(recipe){
 closeModal.addEventListener('click', ()=> modal.style.display='none');
 window.addEventListener('click', e=> { if(e.target===modal) modal.style.display='none'; });
 
-// Toggle favorites
-function toggleFavorite(recipe, heartElement) {
-    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const index = favorites.findIndex(f => f.name === recipe.name);
 
-    if(index > -1){
-        favorites.splice(index,1);
-        heartElement.classList.remove('favorited');
-    } else {
-        favorites.push(recipe);
-        heartElement.classList.add('favorited');
-    }
-
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-}
