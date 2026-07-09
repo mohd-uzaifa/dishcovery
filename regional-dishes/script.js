@@ -19,7 +19,7 @@ const modalSteps = document.getElementById('modalSteps');
 const closeModal = document.getElementById('closeModal');
 
 // Load JSON
-fetch('http://localhost:8080/api/recipes')
+fetch('https://dishcovery-backend-tprd.onrender.com/api/recipes')
 .then(res => res.json())
 .then(data => {
   allRecipes = data.map(r => {
