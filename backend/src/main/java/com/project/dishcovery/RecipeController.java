@@ -17,8 +17,8 @@ public class RecipeController {
     }
 
     @GetMapping
-    public List<Recipe> getAllRecipes() {
-        return recipeRepository.findAll();
+    public List<RecipeSummaryDTO> getAllRecipes() {
+        return recipeRepository.findAll().stream().map(RecipeSummaryDTO::new).toList();
     }
 
     @GetMapping("/{id}")
