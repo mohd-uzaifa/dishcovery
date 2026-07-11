@@ -7,6 +7,7 @@ let currentIndex = 0;
 const batchSize = 16;
 
 // DOM Elements
+const loadingOverlay = document.getElementById("loadingOverlay");
 const ingredientCount = document.getElementById('ingredientCount');
 const ingredientSearch = document.getElementById('ingredientSearch');
 const recipeGrid = document.getElementById('recipeGrid');
@@ -30,19 +31,54 @@ const modalIngredients = document.getElementById('modalIngredients');
 const modalSteps = document.getElementById('modalSteps');
 const closeModal = document.getElementById('closeModal');
 
-// Load JSON
-fetch('https://dishcovery-backend-tprd.onrender.com/api/recipes')
-.then(res => res.json())
-.then(data => {
-  allRecipes = data.map(r => {
-    r.ingredients = r.ingredients.map(i => i.toLowerCase().trim());
-    r.nameLower = r.name.toLowerCase();
-    r.courseLower = r.course.toLowerCase();
-    r.dietLower = r.diet.toLowerCase();
-    return r;
-  });
-})
-.catch(err => console.log(err));
+loadingOverlay.style.display = "flex";
+
+const cachedRecipes = sessionStorage.getItem("recipes");
+
+function prepareRecipes(data) {
+    allRecipes = data.map(r => {
+
+        r.ingredients = (r.ingredients || []).map(i => i.toLowerCase().trim());
+
+        r.nameLower = (r.name || "").toLowerCase();
+        r.courseLower = (r.course || "").toLowerCase();
+        r.dietLower = (r.diet || "").toLowerCase();
+
+        r.image = (r.image || "")
+            .replace(/^static\//, "../ingredient-search/static/");
+
+        return r;
+    });
+
+    loadingOverlay.style.display = "none";
+}
+
+if (cachedRecipes) {
+
+    console.log("Loaded recipes from sessionStorage");
+
+    prepareRecipes(JSON.parse(cachedRecipes));
+
+} else {
+
+    fetch("https://dishcovery-backend-tprd.onrender.com/api/recipes")
+        .then(res => res.json())
+        .then(data => {
+
+            sessionStorage.setItem("recipes", JSON.stringify(data));
+
+            prepareRecipes(data);
+
+        })
+        .catch(err => {
+
+            loadingOverlay.style.display = "none";
+
+            console.error(err);
+
+        });
+
+}
 
 // Sections
 const sections = {
@@ -218,7 +254,7 @@ function displayRecipes(){
     
 
     // Open modal
-    card.addEventListener('click', ()=>openModal(r));
+    card.addEventListener('click', ()=>fetchRecipe(r.id));
 
     recipeGrid.appendChild(card);
   });
@@ -230,7 +266,18 @@ function displayRecipes(){
 
 // Load More
 loadMoreBtn.addEventListener('click', displayRecipes);
+function fetchRecipe(id) {
+    fetch(`https://dishcovery-backend-tprd.onrender.com/api/recipes/${id}`)
+        .then(res => res.json())
+        .then(recipe => {
 
+            recipe.image = (recipe.image || '')
+                .replace(/^static\//, '../ingredient-search/static/');
+
+            openModal(recipe);
+        })
+        .catch(console.error);
+}
 // Modal
 function openModal(recipe){
   modalName.textContent = recipe.name;

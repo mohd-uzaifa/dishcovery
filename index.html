@@ -7,6 +7,20 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="loadingOverlay">
+    <div class="loading-content">
+        <div class="loading-spinner"></div>
+
+        <h2>DishCovery</h2>
+
+        <p>Loading recipes...</p>
+
+        <small>
+            Preparing 4,000 recipes for you.<br>
+            This may take a few seconds on your first visit.
+        </small>
+    </div>
+</div>
 
 <nav class="navbar">
   <div class="logo">DishCovery</div>
@@ -68,11 +82,7 @@
   <p>Made by DishCovery Team</p>
 </footer>
 
-<script>
-  document.querySelector(".cta-btn").addEventListener("click", () => {
-    document.querySelector("#features").scrollIntoView({ behavior: "smooth" });
-  });
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>

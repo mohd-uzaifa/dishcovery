@@ -62,3 +62,52 @@ footer { text-align:center; padding:20px; background:#fdfaf6; color:#555; font-s
 
 /* RESPONSIVE */
 @media (max-width:768px){ .hero-content h1{font-size:1.6rem;} .features{padding:0 5% 50px 5%;} }
+/* ================= LOADING OVERLAY ================= */
+
+#loadingOverlay{
+    position:fixed;
+    inset:0;
+    background:#fdfaf6;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+.loading-content{
+    text-align:center;
+}
+
+.loading-spinner{
+    width:70px;
+    height:70px;
+    border:8px solid #eee;
+    border-top:8px solid #6a4c93;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:auto;
+    margin-bottom:20px;
+}
+
+.loading-content h2{
+    color:#6a4c93;
+    margin-bottom:10px;
+}
+
+.loading-content p{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.loading-content small{
+    color:#777;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}

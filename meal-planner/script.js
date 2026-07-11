@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const meals = ["Breakfast","Lunch","Dinner"];
 
   let allRecipes = [];
+  let dataLoaded = false;
   let weeklyPlan = {};
   const hindiRegex = /[\u0900-\u097F]/;
 
   // DOM
+  const loadingOverlay = document.getElementById("loadingOverlay");
   const dietBoxes = Array.from(document.querySelectorAll('.diet-box'));
   const spinner = document.getElementById('spinner');
   const plannerArea = document.getElementById('plannerArea');
@@ -26,27 +28,57 @@ document.addEventListener('DOMContentLoaded', () => {
   // Selected diets (strings)
   let selectedDiets = [];
   let firstLoad = true; // 🔹 New flag to prevent spinner on first render
-
+loadingOverlay.style.display = "flex";
   // load JSON
-fetch('https://dishcovery-backend-tprd.onrender.com/api/recipes')
-    .then(r => r.json())
-    .then(data => {
-      // adjust image paths same as your region page
-      allRecipes = data.map(item => {
+const cachedRecipes = sessionStorage.getItem("recipes");
+
+function prepareRecipes(data) {
+
+    allRecipes = data.map(item => {
+
         const r = Object.assign({}, item);
-        r.image = (r.image || '').replace(/^static\//, '../ingredient-search/static/');
+
+        r.image = (r.image || "")
+            .replace(/^static\//, "../ingredient-search/static/");
+
         return r;
-      });
-      // initial render (no diets = show message)
-      generateAndRender();
-    })
-    .catch(err => {
-      console.error('Failed to load recipes1.json', err);
+
     });
+    dataLoaded = true;
+    loadingOverlay.style.display = "none";
+
+    generateAndRender();
+
+}
+
+if (cachedRecipes) {
+
+    console.log("Meal Planner: Loaded from sessionStorage");
+
+    prepareRecipes(JSON.parse(cachedRecipes));
+
+} else {
+
+    fetch("https://dishcovery-backend-tprd.onrender.com/api/recipes")
+        .then(r => r.json())
+        .then(data => {
+
+            sessionStorage.setItem("recipes", JSON.stringify(data));
+
+            prepareRecipes(data);
+
+        })
+        .catch(err => {
+    loadingOverlay.style.display = "none";
+    console.error(err);
+});
+
+}
 
   // diet box clicks toggle selection and auto-generate
   dietBoxes.forEach(box => {
     box.addEventListener('click', () => {
+      if (!dataLoaded) return; // prevent clicks before data is ready
       box.classList.toggle('selected');
       const diet = box.dataset.diet;
       if (box.classList.contains('selected')) {
@@ -170,7 +202,7 @@ fetch('https://dishcovery-backend-tprd.onrender.com/api/recipes')
             <div class="recipe-name">${escapeHtml(recipe.name)}</div>
           `;
           // click to open modal
-          card.addEventListener('click', () => showModal(recipe));
+          card.addEventListener('click', () => fetchRecipe(recipe.id));
         }
 
         row.appendChild(card);
@@ -180,6 +212,18 @@ fetch('https://dishcovery-backend-tprd.onrender.com/api/recipes')
       plannerArea.appendChild(dayEl);
     }
   }
+  function fetchRecipe(id) {
+    fetch(`https://dishcovery-backend-tprd.onrender.com/api/recipes/${id}`)
+        .then(res => res.json())
+        .then(recipe => {
+
+            recipe.image = (recipe.image || '')
+                .replace(/^static\//, '../ingredient-search/static/');
+
+            showModal(recipe);
+        })
+        .catch(console.error);
+}
 
   // show modal filled with recipe details
   function showModal(recipe) {

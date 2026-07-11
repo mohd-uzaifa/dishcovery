@@ -1,9 +1,11 @@
 let allRecipes = [];
+let dataLoaded = false;
 let filteredRecipes = [];
 let currentIndex = 0;
 const batchSize = 12;
 
 // DOM Elements
+
 const recipeGrid = document.getElementById('recipeGrid');
 const loadMoreBtn = document.getElementById('loadMore');
 const spinner = document.getElementById('spinner');
@@ -17,23 +19,60 @@ const modalDescription = document.getElementById('modalDescription');
 const modalIngredients = document.getElementById('modalIngredients');
 const modalSteps = document.getElementById('modalSteps');
 const closeModal = document.getElementById('closeModal');
+const loadingOverlay = document.getElementById("loadingOverlay");
 
+loadingOverlay.style.display = "flex";
 // Load JSON
-fetch('https://dishcovery-backend-tprd.onrender.com/api/recipes')
-.then(res => res.json())
-.then(data => {
-  allRecipes = data.map(r => {
-    r.cuisineLower = r.cuisine.toLowerCase();
-    r.nameLower = r.name.toLowerCase();
-    r.image = r.image.replace(/^static\//, '../ingredient-search/static/');
-    return r;
-  });
-})
-.catch(err => console.log(err));
+const cachedRecipes = sessionStorage.getItem("recipes");
+
+function prepareRecipes(data) {
+
+    allRecipes = data.map(r => {
+
+        r.cuisineLower = (r.cuisine || "").toLowerCase();
+        r.nameLower = (r.name || "").toLowerCase();
+
+        r.image = (r.image || "")
+            .replace(/^static\//, "../ingredient-search/static/");
+
+        return r;
+    });
+
+    dataLoaded = true;                  
+    loadingOverlay.style.display = "none"; 
+}
+
+if (cachedRecipes) {
+
+    console.log("Regional page: Loaded from sessionStorage");
+
+    prepareRecipes(JSON.parse(cachedRecipes));
+
+} else {
+
+    fetch("https://dishcovery-backend-tprd.onrender.com/api/recipes")
+        .then(res => res.json())
+        .then(data => {
+
+            sessionStorage.setItem("recipes", JSON.stringify(data));
+
+            prepareRecipes(data);
+
+        })
+        .catch(err => {
+
+    loadingOverlay.style.display = "none";
+
+    console.error(err);
+
+});
+
+}
 
 // Event listeners for region buttons
 cuisineButtons.forEach(btn => {
   btn.addEventListener('click', () => {
+    if (!dataLoaded) return; // prevent clicks before data is ready
     cuisineButtons.forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     const cuisine = btn.dataset.cuisine.toLowerCase();
@@ -74,7 +113,7 @@ function displayRecipes() {
 
    
 
-    card.addEventListener('click', ()=> openModal(r));
+    card.addEventListener('click', ()=> fetchRecipe(r.id));
     recipeGrid.appendChild(card);
   });
   currentIndex += recipesToShow.length;
@@ -83,7 +122,18 @@ function displayRecipes() {
 
 // Load More
 loadMoreBtn.addEventListener('click', displayRecipes);
+function fetchRecipe(id) {
+    fetch(`https://dishcovery-backend-tprd.onrender.com/api/recipes/${id}`)
+        .then(res => res.json())
+        .then(recipe => {
 
+            recipe.image = (recipe.image || '')
+                .replace(/^static\//, '../ingredient-search/static/');
+
+            openModal(recipe);
+        })
+        .catch(console.error);
+}
 // Modal
 function openModal(recipe){
   modalName.textContent = recipe.name;
