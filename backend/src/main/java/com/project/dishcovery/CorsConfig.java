@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("*")
+                        .allowedOrigins("https://dishcovery-frontend-6eyo.onrender.com")
                         .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
