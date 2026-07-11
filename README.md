@@ -17,7 +17,7 @@ DishCovery is a full-stack recipe discovery web application that helps users sea
 
 **Frontend:** https://dishcovery-frontend-6eyo.onrender.com
 
-**Backend API:** https://dishcovery-backend-tprd.onrender.com
+**Backend API:** https://dishcovery-backend-tprd.onrender.com/api/recipes
 
 ---
 
