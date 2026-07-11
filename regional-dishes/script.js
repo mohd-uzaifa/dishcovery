@@ -32,8 +32,7 @@ function prepareRecipes(data) {
         r.cuisineLower = (r.cuisine || "").toLowerCase();
         r.nameLower = (r.name || "").toLowerCase();
 
-        r.image = (r.image || "")
-            .replace(/^static\//, "../ingredient-search/static/");
+        r.image = r.image || "";
 
         return r;
     });
@@ -127,8 +126,7 @@ function fetchRecipe(id) {
         .then(res => res.json())
         .then(recipe => {
 
-            recipe.image = (recipe.image || '')
-                .replace(/^static\//, '../ingredient-search/static/');
+            recipe.image = recipe.image || '';
 
             openModal(recipe);
         })

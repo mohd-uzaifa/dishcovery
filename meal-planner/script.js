@@ -38,8 +38,7 @@ function prepareRecipes(data) {
 
         const r = Object.assign({}, item);
 
-        r.image = (r.image || "")
-            .replace(/^static\//, "../ingredient-search/static/");
+        r.image = r.image || "";
 
         return r;
 
@@ -217,8 +216,7 @@ if (cachedRecipes) {
         .then(res => res.json())
         .then(recipe => {
 
-            recipe.image = (recipe.image || '')
-                .replace(/^static\//, '../ingredient-search/static/');
+            recipe.image = recipe.image || '';
 
             showModal(recipe);
         })
